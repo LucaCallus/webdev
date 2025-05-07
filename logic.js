@@ -1,6 +1,6 @@
 let money = 0;
 let rate = 1;
-let cost = [10, 50, 50, 50, 50, 50];
+let cost = [50, 50, 50, 50, 50, 50];
 
 function count(){
     money += rate;
