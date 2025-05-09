@@ -1,21 +1,10 @@
-// Load state
-fetch("http://localhost:3000/gameState")
-.then(res => res.json())
-.then(state => {
-    money = state.money;
-    rate = state.rate;
-    rates = state.rate;
-    cost = state.cost;
-    levels = state.levels;
-})
-// UPDATE UI VALUES WITH THESE - AFTER DOMCONTENTLOADED ?
 // IMP -- cost[0]=50 (temporarily is 10 for testing) -- IMP
-
-// let money = 0;
-// let rate = 1;
-// let rates = [1, 0, 0, 0, 0, 0];
-// let cost = [10, 75, 100, 125, 150, 200]; 
-// let levels = [1, 0, 0, 0, 0, 0];
+// include this at top:
+let money = 0;
+let rate = 1;
+let rates = [1, 0, 0, 0, 0, 0];
+let cost = [10, 75, 100, 125, 150, 200]; 
+let levels = [1, 0, 0, 0, 0, 0];
 
 // Save state function
 function saveGameState(){
@@ -42,8 +31,6 @@ function count(){
     document.querySelector("#money").innerHTML = money;
 }
 
-setInterval(countAuto, 1000);
-
 function upgrade(index){
     if(money >= cost[index]){
         money -= cost[index]; // decrease money
@@ -65,21 +52,47 @@ function upgrade(index){
         rate = rates.reduce((a, b) => a+b, 0);
         document.querySelector("#rate").innerHTML = rate;
         
+        saveGameState(); // working?
+
     }
     else alert("Not Enough Money");
 }
 
+setInterval(countAuto, 1000); // run every 1s
+
+setInterval(saveGameState, 30000); // run every 30s - is 30s too much (every 1s?)
+
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector("#money").innerHTML = money;
+    // Load state
+    fetch("http://localhost:3000/gameState")
+    .then(res => res.json())
+    .then(state => {
+        money = state.money;
+        rate = state.rate;
+        rates = state.rates;
+        cost = state.cost;
+        levels = state.levels;
 
-    document.querySelector("#wheelButton").onclick = count;
+        console.log(state);
 
-    // Add onclick property for each mechanic
-    for(let i=0; i<6; i++){
-        document.querySelector(`#mechanic${i+1}`).onclick = () => upgrade(i);
-    }
-    // mechanic (for each one) - need to: increase cost, increase $/s, check if player has enough money
+        // Update UI
+        document.querySelector("#money").innerHTML = money; // money
+        document.querySelector("#rate").innerHTML = rate; // rate
+        for(let i=0; i<6; i++){ // mechanics - cost, level, rate
+            document.querySelector(`#cost${i+1}`).innerHTML = cost[i];
+            document.querySelector(`#level${i+1}`).innerHTML = levels[i];
+            document.querySelector(`#rate${i+1}`).innerHTML = rates[i];
+        }
 
+        document.querySelector("#wheelButton").onclick = count;
+
+        // Add onclick property for each mechanic
+        for(let i=0; i<6; i++){
+            document.querySelector(`#mechanic${i+1}`).onclick = () => upgrade(i);
+        }
+
+
+    })
 
 
 })

@@ -28,6 +28,7 @@ app.get("/gameState", (req, res) => {
 
 // Save game state
 app.post("/gameState", (req, res) => {
+    gameState = req.body; // update from frontend
     fs.writeFile("gameState.json", JSON.stringify(gameState, null, 2), err => {
         if(err) return res.status(500).send("Failed to save");
         res.sendStatus(200);
