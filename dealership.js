@@ -16,4 +16,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // can calculate price using formula
     // find efficient way to get car images
+    // add sir to github repo
 })

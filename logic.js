@@ -1,8 +1,36 @@
-let money = 0;
-let rate = 1;
-let rates = [1, 0, 0, 0, 0, 0];
-let cost = [10, 75, 100, 125, 150, 200];
-let levels = [1, 0, 0, 0, 0, 0];
+// Load state
+fetch("http://localhost:3000/gameState")
+.then(res => res.json())
+.then(state => {
+    money = state.money;
+    rate = state.rate;
+    rates = state.rate;
+    cost = state.cost;
+    levels = state.levels;
+})
+// UPDATE UI VALUES WITH THESE - AFTER DOMCONTENTLOADED ?
+// IMP -- cost[0]=50 (temporarily is 10 for testing) -- IMP
+
+// let money = 0;
+// let rate = 1;
+// let rates = [1, 0, 0, 0, 0, 0];
+// let cost = [10, 75, 100, 125, 150, 200]; 
+// let levels = [1, 0, 0, 0, 0, 0];
+
+// Save state function
+function saveGameState(){
+    fetch("http://localhost:3000/gameState", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({money, rate, rates, cost, levels})
+    })
+    .then(res => {
+        if(res.ok) console.log("Game Saved");
+        else console.error("Failed to save");
+    })
+}
 
 function countAuto(){
     money += rate;
