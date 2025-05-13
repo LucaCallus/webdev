@@ -3,10 +3,10 @@
 let money = 0;
 let rate = 1;
 let rates = [1, 0, 0, 0, 0, 0];
-let cost = [10, 75, 100, 125, 150, 200]; 
+let cost = [10, 75, 100, 125, 150, 200]; // FIX PRICING - make more expensive
 let levels = [1, 0, 0, 0, 0, 0];
 
-// Save state function
+// Save state
 function saveGameState(){
     fetch("http://localhost:3000/gameState", {
         method: "POST",
