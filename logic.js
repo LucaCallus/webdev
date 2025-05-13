@@ -21,16 +21,19 @@ function saveGameState(){
     })
 }
 
+// Auto increment money
 function countAuto(){
     money += rate;
     document.querySelector("#money").innerHTML = money;
 }
 
+// Manually increment money
 function count(){
     money += 1; // expsenive upgrade to be able to upgrade this
     document.querySelector("#money").innerHTML = money;
 }
 
+// Mechanic Upgrade logic
 function upgrade(index){
     if(money >= cost[index]){
         money -= cost[index]; // decrease money
@@ -58,10 +61,11 @@ function upgrade(index){
     else alert("Not Enough Money");
 }
 
+// Automatic updates
 setInterval(countAuto, 1000); // run every 1s
+setInterval(saveGameState, 30000);
 
-setInterval(saveGameState, 30000); // run every 30s - is 30s too much (every 1s?)
-
+// DOM ready
 document.addEventListener("DOMContentLoaded", () => {
     // Load state
     fetch("http://localhost:3000/gameState")
@@ -96,3 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 })
+
+//  NOT WORKING
+// // Save game state when the user closes the tab or navigates away - usign sendBeacon()
+// window.addEventListener("beforeunload", () => {
+//     const data = JSON.stringify({money, rate, rates, cost, levels});
+//     const blob = new Blob([data], {type: "application/json"});
+//     navigator.sendBeacon("http://localhost:3000/gameState", blob);
+// });
