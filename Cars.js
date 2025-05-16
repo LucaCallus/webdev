@@ -8,6 +8,13 @@ export class Car{
         this.price = price;
     }
 
+    getSummary(){
+        return `Brand: ${this.brand}, 
+        Model: ${this.model}, 
+        Year: ${this.year}, 
+        Price: $${this.price}`;
+    }  
+    
     getDetails(){
         return `Brand: ${this.brand}, 
         Model: ${this.model}, 

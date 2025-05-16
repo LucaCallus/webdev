@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
         <title>title</title>
-        <style></style>
-        <script src="logic.js"></script>
-        <script src="dealership.js"></script>
-        <!-- <script src="server.js"></script> -->
-        <!-- include server.js ?  -->
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+        <!-- <script src="dealership.js"></script> -->
     </head>
     <body>
-        <header></header>
+        <header>
+            <h1>The Car Tycoon</h1>
+        </header>
 
         <div>
-            <button id="wheelButton">Wheel</button>
+            <button id="wheelButton">
+                <img src="wheel.png" alt="Click the Wheel" style="width: 100px; height: auto;">
+                <p>Click me</p>
+            </button>
             <p>Money: $<span id="money">0</span></p>
             <p>$<span id="rate">1</span>/sec</p>
         </div>
@@ -24,6 +28,35 @@
             <button id="mechanic4">Mechanic 4 Buy/Upgrade Cost: $<span id="cost4">10</span> Level: <span id="level4">0 </span>$/s: <span id="rate4">0</span></button>
             <button id="mechanic5">Mechanic 5 Buy/Upgrade Cost: $<span id="cost5">10</span> Level: <span id="level5">0 </span>$/s: <span id="rate5">0</span></button>
             <button id="mechanic6">Mechanic 6 Buy/Upgrade Cost: $<span id="cost6">10</span> Level: <span id="level6">0 </span>$/s: <span id="rate6">0</span></button>
+        </div>
+
+        <div id="dealership">
+            <h2>Dealership</h2>
+            <div id=car1>
+                <h4></h4>
+                <h5></h5>
+                <button>Buy</button>
+            </div>
+            <div id=car2>
+                <h4></h4>
+                <h5></h5>
+                <button>Buy</button>
+            </div>
+            <div id=car3>
+                <h4></h4>
+                <h5></h5>
+                <button>Buy</button>
+            </div>
+            <div id=car4>
+                <h4></h4>
+                <h5></h5>
+                <button>Buy</button>
+            </div>
+            <div id=car5>
+                <h4></h4>
+                <h5></h5>
+                <button>Buy</button>
+            </div>
         </div>
 
         <footer></footer>

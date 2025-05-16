@@ -6,7 +6,16 @@ let rates = [1, 0, 0, 0, 0, 0];
 let cost = [10, 75, 100, 125, 150, 200]; // FIX PRICING - make more expensive
 let levels = [1, 0, 0, 0, 0, 0];
 
-// Save state
+// save that games are bought - IMP
+const cars = [
+    ["Mazda Demio 2", 5000],
+    ["Toyota Celica GT", 7500],
+    ["Subaru Impreza WRX", 27000],
+    ["Audi R8", 89000],
+    ["Ferrai F40", 399000],
+];
+
+// Save state func
 function saveGameState(){
     fetch("http://localhost:3000/gameState", {
         method: "POST",
@@ -55,8 +64,26 @@ function upgrade(index){
         rate = rates.reduce((a, b) => a+b, 0);
         document.querySelector("#rate").innerHTML = rate;
         
-        saveGameState(); // working?
+        saveGameState(); // save game state
 
+    }
+    else alert("Not Enough Money");
+}
+
+// Buy Car logic
+function buy(index){
+    if(money >= cars[index][1]){
+        money -= cars[index][1]; // decrease money
+
+        saveGameState(); // save game state
+    
+        const owned = document.createElement("span");
+        owned.innerHTML = "OWNED";
+
+        let carDiv = document.querySelector(`#car${index+1}`);
+        let buyBtn = carDiv.querySelector("button");
+
+        carDiv.replaceChild(owned, buyBtn);
     }
     else alert("Not Enough Money");
 }
@@ -95,11 +122,19 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(`#mechanic${i+1}`).onclick = () => upgrade(i);
         }
 
+        // Add html content and buy function for each car
+        for(let i=0; i<cars.length; i++){
+            let carDiv = document.querySelector(`#car${i+1}`);
+            carDiv.querySelector("h4").innerHTML = cars[i][0];
+            carDiv.querySelector("h5").innerHTML = `$${cars[i][1]}`;
+            carDiv.querySelector("button").onclick = () => buy(i);
+        }
 
-    })
+
+    });
 
 
-})
+});
 
 //  NOT WORKING
 // // Save game state when the user closes the tab or navigates away - usign sendBeacon()
