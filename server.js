@@ -14,10 +14,10 @@ app.use(express.json());
 
 let gameState = {
     money: 0,
-    rate: 1,
-    rates: [1, 0, 0, 0, 0, 0],
-    cost: [10, 75, 100, 125, 150, 200],
-    levels: [1, 0, 0, 0, 0, 0]
+    rate: 0,
+    hired: [0, 0, 0, 0, 0, 0],
+    bought: [0, 0, 0, 0, 0],
+    achievements: [0, 0, 0, 0]
 };
 
 const gameStateFilePath = path.join(__dirname, "gameState.json"); // construct file path dynamically
@@ -46,9 +46,9 @@ app.post("/gameState",
         // Validation and Sanitisation
         body("money").isNumeric().withMessage("Money must be a number").toInt(),
         body("rate").isNumeric().withMessage("Rate must be a number").toInt(),
-        body("rates").isArray().withMessage("Rates must be an array"),
-        body("cost").isArray().withMessage("Cost must be an array"),
-        body("levels").isArray().withMessage("Levels must be an array"),
+        body("hired").isArray().withMessage("Hired must be an array"),
+        body("bought").isArray().withMessage("Bought must be an array"),
+        body("achievements").isArray().withMessage("Achievements must be an array"),
     ],
     (req, res) => {
         // Check for validation errors

@@ -1,19 +1,32 @@
 // IMP -- cost[0]=50 (temporarily is 10 for testing) -- IMP
 // include this at top:
 let money = 0;
-let rate = 1;
-let rates = [1, 0, 0, 0, 0, 0];
-let cost = [10, 75, 100, 125, 150, 200]; // FIX PRICING - make more expensive
-let levels = [1, 0, 0, 0, 0, 0];
+let rate = 0;
 
-// save that games are bought - IMP
-const cars = [
+// Initialise mechanics
+const mechanics = [
+    // name, $/sec, price
+    ["Apprentice", 1, 100],
+    ["Junior", 5, 500],
+    ["Experienced", 15, 2500],
+    ["Senior", 50, 10000],
+    ["Master", 200, 50000],
+    ["Legendary", 1000, 250000]
+]
+
+// Initialise cars
+const cars = [ // save that cars are bought - IMP
+    // name, price
     ["Mazda Demio 2", 5000],
     ["Toyota Celica GT", 7500],
     ["Subaru Impreza WRX", 27000],
     ["Audi R8", 89000],
     ["Ferrai F40", 399000],
 ];
+
+let hired = Array(mechanics.length).fill(0);
+let bought = Array(cars.length).fill(0);
+let achievements = [0, 0, 0, 0]; // [First Click, First Mechanic, First Car, Millionaire]
 
 // Save state func
 function saveGameState(){
@@ -22,7 +35,7 @@ function saveGameState(){
         headers: {
             "Content-type": "application/json"
         },
-        body: JSON.stringify({money, rate, rates, cost, levels})
+        body: JSON.stringify({money, rate, hired, bought, achievements})
     })
     .then(res => {
         if(res.ok) console.log("Game Saved");
@@ -40,57 +53,73 @@ function countAuto(){
 function count(){
     money += 1; // expsenive upgrade to be able to upgrade this
     document.querySelector("#money").innerHTML = money;
+    if (!achievements[0]) { // First Click
+        achievements[0] = 1;
+        updateAchievementsUI();
+        saveGameState();
+    }
 }
 
-// Mechanic Upgrade logic
-function upgrade(index){
-    if(money >= cost[index]){
-        money -= cost[index]; // decrease money
-
-        // Update Rate
-        if(levels[index]==0) rates[index] = 2; // set rate to 2
-        else rates[index] *= 2; // multiply rate by 2 (2^n)
-        document.querySelector(`#rate${index+1}`).innerHTML = rates[index];
-
-        // Update Level
-        levels[index] += 1;
-        document.querySelector(`#level${index+1}`).innerHTML = levels[index];
-
-        // Update Cost
-        cost[index] = Math.round(2.5 * cost[index]); // multiply cost by 2.5 (2.5^n)
-        document.querySelector(`#cost${index+1}`).innerHTML = cost[index];
-
-        // Update overall rate
-        rate = rates.reduce((a, b) => a+b, 0);
+// Buy Mechanics logic
+function buyMechanic(index){
+    if(money >= mechanics[index][2]){
+        money -= mechanics[index][2]; // decrease money
+        rate += mechanics[index][1]; // update rate
         document.querySelector("#rate").innerHTML = rate;
-        
-        saveGameState(); // save game state
-
+        hired[index] = 1; // Mark as hired
+        const hiredSpan = document.createElement("span");
+        hiredSpan.innerHTML = "Already Hired";
+        let mechDiv = document.querySelector(`#mechanic${index+1}`);
+        let hireBtn = mechDiv.querySelector("button");
+        mechDiv.replaceChild(hiredSpan, hireBtn);
+        if (!achievements[1]) { // First Mechanic
+            achievements[1] = 1;
+            updateAchievementsUI();
+        }
+        saveGameState();
     }
     else alert("Not Enough Money");
 }
 
 // Buy Car logic
-function buy(index){
+function buyCar(index){
     if(money >= cars[index][1]){
         money -= cars[index][1]; // decrease money
-
-        saveGameState(); // save game state
-    
-        const owned = document.createElement("span");
-        owned.innerHTML = "OWNED";
-
+        bought[index] = 1; // Mark as bought
+        const ownedSpan = document.createElement("span");
+        ownedSpan.innerHTML = "OWNED";
         let carDiv = document.querySelector(`#car${index+1}`);
         let buyBtn = carDiv.querySelector("button");
-
-        carDiv.replaceChild(owned, buyBtn);
+        carDiv.replaceChild(ownedSpan, buyBtn);
+        if (!achievements[2]) { // First Car
+            achievements[2] = 1;
+            updateAchievementsUI();
+        }
+        saveGameState(); // save game state
     }
     else alert("Not Enough Money");
 }
 
+// Update achievements UI function
+function updateAchievementsUI() {
+    for(let i = 0; i < achievements.length; i++) {
+        const achBox = document.getElementById(`ach${i+1}`);
+        if(achBox) achBox.checked = !!achievements[i];
+    }
+}
+
 // Automatic updates
 setInterval(countAuto, 1000); // run every 1s
-setInterval(saveGameState, 30000);
+setInterval(saveGameState, 30000); // run every 30s
+
+// Millionaire achievement check (auto)
+setInterval(() => {
+    if (!achievements[3] && money >= 1000000) {
+        achievements[3] = 1;
+        updateAchievementsUI();
+        saveGameState();
+    }
+}, 1000); // run every 1s
 
 // DOM ready
 document.addEventListener("DOMContentLoaded", () => {
@@ -100,34 +129,65 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(state => {
         money = state.money;
         rate = state.rate;
-        rates = state.rates;
-        cost = state.cost;
-        levels = state.levels;
+        hired = state.hired;
+        bought = state.bought;
+        achievements = state.achievements;
 
         console.log(state);
 
         // Update UI
         document.querySelector("#money").innerHTML = money; // money
         document.querySelector("#rate").innerHTML = rate; // rate
-        for(let i=0; i<6; i++){ // mechanics - cost, level, rate
-            document.querySelector(`#cost${i+1}`).innerHTML = cost[i];
-            document.querySelector(`#level${i+1}`).innerHTML = levels[i];
-            document.querySelector(`#rate${i+1}`).innerHTML = rates[i];
+        for(let i=0; i<mechanics.length; i++){ // update mechanics - hired?
+            let mechDiv = document.querySelector(`#mechanic${i+1}`);
+            let hireBtn = mechDiv.querySelector("button");
+            if(hired[i]){
+                const hiredSpan = document.createElement("span");
+                hiredSpan.innerHTML = "Already Hired";
+                if(hireBtn) mechDiv.replaceChild(hiredSpan, hireBtn);
+            }
         }
+        for(let i=0; i<cars.length; i++){ // update cars - bought?
+            let carDiv = document.querySelector(`#car${i+1}`);
+            let buyBtn = carDiv.querySelector("button");
+            if(bought[i]){
+                const ownedSpan = document.createElement("span");
+                ownedSpan.innerHTML = "OWNED";
+                if(buyBtn) carDiv.replaceChild(ownedSpan, buyBtn);
+            }
+        }
+        updateAchievementsUI(); // update achievements
 
-        document.querySelector("#wheelButton").onclick = count;
+        // Add onclick property to the main button
+        const wheelButton = document.querySelector("#wheelButton");
+        if (wheelButton) wheelButton.onclick = count;
 
-        // Add onclick property for each mechanic
-        for(let i=0; i<6; i++){
-            document.querySelector(`#mechanic${i+1}`).onclick = () => upgrade(i);
+        // Add html content and buy function for each mechanic
+        for(let i=0; i<mechanics.length; i++){
+            let mechDiv = document.querySelector(`#mechanic${i+1}`);
+            if (!mechDiv) continue;
+            const h4 = mechDiv.querySelector("h4");
+            if (h4) h4.innerHTML = mechanics[i][0];
+            const rateSpan = mechDiv.querySelector(".rate");
+            if (rateSpan) rateSpan.innerHTML = mechanics[i][1];
+            let btn = mechDiv.querySelector("button");
+            if (btn) {
+                const span = btn.querySelector("span");
+                if (span) span.innerHTML = mechanics[i][2];
+                btn.onclick = () => buyMechanic(i);
+            }
         }
 
         // Add html content and buy function for each car
         for(let i=0; i<cars.length; i++){
             let carDiv = document.querySelector(`#car${i+1}`);
-            carDiv.querySelector("h4").innerHTML = cars[i][0];
-            carDiv.querySelector("h5").innerHTML = `$${cars[i][1]}`;
-            carDiv.querySelector("button").onclick = () => buy(i);
+            if (!carDiv) continue;
+            const h4 = carDiv.querySelector("h4");
+            if (h4) h4.innerHTML = cars[i][0];
+            const h5 = carDiv.querySelector("h5");
+            if (h5) h5.innerHTML = `$${cars[i][1]}`;
+            let btn = carDiv.querySelector("button");
+            if (btn) btn.onclick = () => buyCar(i);
         }
 
 
