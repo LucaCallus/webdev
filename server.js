@@ -17,7 +17,7 @@ let gameState = {
     rate: 0,
     hired: [0, 0, 0, 0, 0, 0],
     bought: [0, 0, 0, 0, 0],
-    achievements: [0, 0, 0, 0]
+    achievements: [0, 0, 0, 0, 0]
 };
 
 const gameStateFilePath = path.join(__dirname, "gameState.json"); // construct file path dynamically

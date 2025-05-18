@@ -337,6 +337,66 @@ body {
 
 footer {
     height: 40px;
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #232526;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 -2px 12px #e6394655;
+}
+
+/* Popup Modal Styles */
+.popup-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,30,30,0.65);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+.popup-content {
+    background: #fff;
+    color: #e63946;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px #e6394655;
+    padding: 32px 28px 22px 28px;
+    min-width: 220px;
+    max-width: 90vw;
+    text-align: center;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.15rem;
+    position: relative;
+}
+#popup-message {
+    display: block;
+    margin-bottom: 18px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+#popup-close {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-size: 1rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #e6394655;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: background 0.15s, color 0.15s;
+}
+#popup-close:hover {
+    background: #f1faee;
+    color: #e63946;
 }
 
 /* Responsive adjustments */

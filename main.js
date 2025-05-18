@@ -26,7 +26,7 @@ const cars = [ // save that cars are bought - IMP
 
 let hired = Array(mechanics.length).fill(0);
 let bought = Array(cars.length).fill(0);
-let achievements = [0, 0, 0, 0]; // [First Click, First Mechanic, First Car, Millionaire]
+let achievements = [0, 0, 0, 0, 0]; // [First Click, First Mechanic, First Car, Millionaire, Own All Cars]
 
 // Save state func
 function saveGameState(){
@@ -57,6 +57,7 @@ function count(){
     if (!achievements[0]) { // First Click
         achievements[0] = 1;
         updateAchievementsUI();
+        showPopup("Achievement Unlocked: First Click!");
         saveGameState();
     }
 }
@@ -86,13 +87,15 @@ function buyMechanic(index){
         let mechDiv = document.querySelector(`#mechanic${index+1}`);
         let hireBtn = mechDiv.querySelector("button");
         mechDiv.replaceChild(hiredSpan, hireBtn);
+        showPopup(`Congratulations! You hired the ${mechanics[index][0]} mechanic!`);
         if (!achievements[1]) { // First Mechanic
             achievements[1] = 1;
             updateAchievementsUI();
+            setTimeout(() => showPopup("Achievement Unlocked: First Mechanic!"), 5000); // wait 5s
         }
         saveGameState();
     }
-    else alert("Not Enough Money");
+    else showPopup("Not enough money to hire this mechanic!");
 }
 
 // Buy Car logic
@@ -105,13 +108,33 @@ function buyCar(index){
         let carDiv = document.querySelector(`#car${index+1}`);
         let buyBtn = carDiv.querySelector("button");
         carDiv.replaceChild(ownedSpan, buyBtn);
+        showPopup(`Congratulations! You bought the ${cars[index][0]}!`);
         if (!achievements[2]) { // First Car
             achievements[2] = 1;
             updateAchievementsUI();
+            setTimeout(() => showPopup("Achievement Unlocked: First Car!"), 3000); // wait 3s
         }
         saveGameState(); // save game state
     }
-    else alert("Not Enough Money");
+    else showPopup("Not enough money to buy this car!");
+}
+
+// Popup/modal function
+function showPopup(message) {
+    const popup = document.getElementById('popup-modal');
+    const msg = document.getElementById('popup-message');
+    const closeBtn = document.getElementById('popup-close');
+    if (popup && msg && closeBtn) {
+        msg.textContent = message;
+        popup.style.display = 'flex';
+        closeBtn.focus();
+        // Close on click
+        closeBtn.onclick = () => { popup.style.display = 'none'; };
+        // Close on outside click
+        popup.onclick = (e) => { if (e.target === popup) popup.style.display = 'none'; };
+        // Close on Escape
+        document.onkeydown = (e) => { if (e.key === 'Escape') popup.style.display = 'none'; };
+    }
 }
 
 // Update achievements UI function
@@ -131,6 +154,17 @@ setInterval(() => {
     if (!achievements[3] && money >= 1000000) {
         achievements[3] = 1;
         updateAchievementsUI();
+        showPopup("Achievement Unlocked: Millionaire!");
+        saveGameState();
+    }
+}, 1000); // run every 1s
+
+// Own All Cars achievement check (auto)
+setInterval(() => {
+    if (!achievements[4] && bought.every(x => x === 1)) {
+        achievements[4] = 1;
+        updateAchievementsUI();
+        setTimeout(() => showPopup("Achievement Unlocked: Own All Cars!"), 3000); // wait 3s
         saveGameState();
     }
 }, 1000); // run every 1s
