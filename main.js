@@ -53,10 +53,24 @@ function countAuto(){
 function count(){
     money += 1; // expsenive upgrade to be able to upgrade this
     document.querySelector("#money").innerHTML = money;
+    rotateSW();
     if (!achievements[0]) { // First Click
         achievements[0] = 1;
         updateAchievementsUI();
         saveGameState();
+    }
+}
+
+// Steering wheel rotation animation
+function rotateSW(){
+    const wheelImg = document.getElementById('steeringWheelImg');
+    if (wheelImg) {
+        const angle = (Math.random() > 0.5 ? 1 : -1) * (10 + Math.random() * 10); // random -20 to +20 deg
+        wheelImg.style.transition = 'transform 0.2s cubic-bezier(.4,2,.6,1)';
+        wheelImg.style.transform = `rotate(${angle}deg)`;
+        setTimeout(() => {
+            wheelImg.style.transform = 'rotate(0deg)';
+        }, 200);
     }
 }
 
@@ -160,18 +174,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add onclick property to the main button
         const wheelButton = document.querySelector("#wheelButton");
-        if (wheelButton) wheelButton.onclick = count;
+        if(wheelButton) wheelButton.onclick = count;
 
         // Add html content and buy function for each mechanic
         for(let i=0; i<mechanics.length; i++){
             let mechDiv = document.querySelector(`#mechanic${i+1}`);
-            if (!mechDiv) continue;
+            if(!mechDiv) continue;
+            mechDiv.classList.add("mechanic-card"); // ensure class for styling
             const h4 = mechDiv.querySelector("h4");
-            if (h4) h4.innerHTML = mechanics[i][0];
+            if(h4) h4.innerHTML = mechanics[i][0];
             const rateSpan = mechDiv.querySelector(".rate");
-            if (rateSpan) rateSpan.innerHTML = mechanics[i][1];
+            if(rateSpan) rateSpan.innerHTML = mechanics[i][1];
             let btn = mechDiv.querySelector("button");
-            if (btn) {
+            if(btn) {
                 const span = btn.querySelector("span");
                 if (span) span.innerHTML = mechanics[i][2];
                 btn.onclick = () => buyMechanic(i);
@@ -181,13 +196,34 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add html content and buy function for each car
         for(let i=0; i<cars.length; i++){
             let carDiv = document.querySelector(`#car${i+1}`);
-            if (!carDiv) continue;
+            if(!carDiv) continue;
+            carDiv.classList.add("car-card"); // ensure class for styling
+            // Set car image src and alt
+            let carImg = carDiv.querySelector(".car-img");
+            if(carImg) {
+                const carImgSrcs = [
+                    "cars/mazda_demio.png",
+                    "cars/toyota_celica.png",
+                    "cars/subaru_impreza.png",
+                    "cars/audi_r8.png",
+                    "cars/ferrari_f40.png"
+                ];
+                const carImgAlts = [
+                    "Mazda Demio 2",
+                    "Toyota Celica GT",
+                    "Subaru Impreza WRX",
+                    "Audi R8",
+                    "Ferrari F40"
+                ];
+                carImg.src = carImgSrcs[i];
+                carImg.alt = carImgAlts[i];
+            }
             const h4 = carDiv.querySelector("h4");
-            if (h4) h4.innerHTML = cars[i][0];
+            if(h4) h4.innerHTML = cars[i][0];
             const h5 = carDiv.querySelector("h5");
-            if (h5) h5.innerHTML = `$${cars[i][1]}`;
+            if(h5) h5.innerHTML = `$${cars[i][1]}`;
             let btn = carDiv.querySelector("button");
-            if (btn) btn.onclick = () => buyCar(i);
+            if(btn) btn.onclick = () => buyCar(i);
         }
 
 

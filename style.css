@@ -1,0 +1,371 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    color: #222;
+    min-height: 100vh;
+    /* carbon fibre */
+    background-image: linear-gradient(135deg, #232526 0%, #414345 100%), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    background-blend-mode: overlay;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 5vw 0 5vw;
+    background: none;
+    box-shadow: none;
+    position: relative;
+    gap: 0;
+}
+
+.header-left {
+    flex: 1 1 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.header-left h1 {
+    color: #e63946;
+    font-family: 'Orbitron', 'Montserrat', Arial, sans-serif;
+    letter-spacing: 2.5px;
+    font-size: 3.2rem;
+    margin: 0;
+    font-weight: 900;
+    text-shadow: 0 2px 8px #fff8, 0 2px 12px #000a;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    filter: none;
+}
+
+.top-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+    flex: 0 1 auto;
+    min-width: 320px;
+}
+
+#wheelButton {
+    background: rgba(255,255,255,0.85);
+    border: 3px solid #e63946;
+    border-radius: 50%;
+    box-shadow: 0 8px 32px #e6394655, 0 0 0 4px #fff2 inset;
+    padding: 18px 32px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+    margin-bottom: 10px;
+    backdrop-filter: blur(6px);
+    /* tire thread border */
+    outline: 3px dashed #222;
+    outline-offset: 4px;
+}
+#wheelButton:hover {
+    background: #e63946;
+    color: #fff;
+    box-shadow: 0 12px 32px #e63946cc;
+}
+#wheelButton:hover p {
+    color: #111;
+}
+#wheelButton img {
+    display: block;
+    margin: 0 auto;
+}
+#wheelButton p {
+    color: #e63946;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.money-rate {
+    background: rgba(30,30,30,0.8);
+    border-radius: 16px;
+    padding: 12px 32px;
+    margin-top: 10px;
+    box-shadow: 0 2px 12px #e6394655;
+    text-align: center;
+    border: 1.5px solid #e63946;
+    font-weight: 600;
+    color: #fff;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+.money-rate p {
+    color: #f1faee;
+    font-family: 'Orbitron', Arial, sans-serif;
+    letter-spacing: 1.5px;
+}
+#rate {
+    color: #e63946;
+    font-weight: bold;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+#money {
+    color: #e63946;
+    font-weight: bold;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+
+.top-right {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 0;
+}
+#achievements {
+    background: rgba(30,30,30,0.85);
+    border-radius: 16px;
+    padding: 16px 22px;
+    box-shadow: 0 2px 12px #e6394655;
+    min-width: 180px;
+    border: 1.5px solid #e63946;
+    color: #fff;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+.ach {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.ach label {
+    color: #f1faee;
+    font-family: 'Orbitron', Arial, sans-serif;
+    letter-spacing: 1.5px;
+    text-shadow: 0 1px 2px #000a;
+}
+.ach input[type="checkbox"]:checked + label {
+    color: #e63946;
+    font-weight: bold;
+}
+
+#mechanics {
+    margin: 36px auto 0 auto;
+    max-width: 1200px;
+    padding: 0 5vw;
+}
+#mechanics h2 {
+    color: #e63946;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    border-left: 5px solid #f1faee;
+    padding-left: 14px;
+    text-shadow: 0 2px 8px #000a;
+}
+.mechanics-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+}
+.mechanic-card {
+    background: rgba(30,30,30,0.85);
+    border: 2.5px solid #e63946;
+    border-radius: 18px 18px 8px 8px;
+    box-shadow: 0 2px 16px #e6394655;
+    padding: 22px 24px;
+    min-width: 180px;
+    max-width: 220px;
+    flex: 1 1 180px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Orbitron', Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    backdrop-filter: blur(6px);
+}
+.mechanic-card::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 18px;
+    background: url('https://www.transparenttextures.com/patterns/checkerboard.png');
+    opacity: 0.18;
+}
+.mechanic-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px #219ebc55;
+    border-color: #219ebc;
+}
+.mechanic-card h4 {
+    color: #f1faee;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px #000a;
+}
+.mechanic-card button {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #e6394655;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+.mechanic-card button:hover {
+    background: #f1faee;
+    color: #e63946;
+}
+.mechanic-card button span {
+    color: #111;
+}
+.mechanic-card span {
+    color: #e63946;
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+
+#dealership {
+    margin: 44px auto 0 auto;
+    max-width: 1200px;
+    padding: 0 5vw 36px 5vw;
+}
+#dealership h2 {
+    color: #e63946;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    border-left: 5px solid #f1faee;
+    padding-left: 14px;
+    text-shadow: 0 2px 8px #000a;
+}
+.cars-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+}
+.car-card {
+    background: rgba(30,30,30,0.85);
+    border: 2.5px solid #e63946;
+    border-radius: 18px 18px 8px 8px;
+    box-shadow: 0 2px 16px #e6394655;
+    padding: 22px 24px;
+    min-width: 180px;
+    max-width: 220px;
+    flex: 1 1 180px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Orbitron', Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    backdrop-filter: blur(6px);
+}
+.car-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px #219ebc55;
+    border-color: #8ecae6;
+}
+.car-card h4 {
+    color: #219ebc;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 8px;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+.car-card h5 {
+    color: #e63946;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+.car-card button {
+    background: #219ebc;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #8ecae655;
+    transition: background 0.15s, color 0.15s;
+}
+.car-card button:hover {
+    background: #8ecae6;
+    color: #222;
+}
+.car-card span {
+    color: #e63946;
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+.car-img {
+    width: 100%;
+    max-width: 170px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+    filter: drop-shadow(0 4px 12px #0008);
+    transition: transform 0.18s;
+}
+.car-card:hover .car-img {
+    transform: scale(1.06);
+}
+
+footer {
+    height: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding: 18px 2vw 0 2vw;
+    }
+    .header-left, .top-center, .top-right {
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    #mechanics, #dealership {
+        padding: 0 2vw;
+    }
+}
+@media (max-width: 600px) {
+    .mechanics-flex, .cars-flex {
+        flex-direction: column;
+        gap: 18px;
+    }
+    .mechanic-card, .car-card {
+        min-width: 90vw;
+        max-width: 98vw;
+    }
+    .top-bar {
+        padding: 8px 2vw 0 2vw;
+    }
+}
