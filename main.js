@@ -183,6 +183,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log(state);
 
+        // Add onclick property to Save Game button
+        const saveGameBtn = document.getElementById('saveGameBtn');
+        if (saveGameBtn) {
+            saveGameBtn.onclick = () => {
+                saveGameState();
+                showPopup("Game saved!");
+            };
+        }
+
         // Update UI
         document.querySelector("#money").innerHTML = money; // money
         document.querySelector("#rate").innerHTML = rate; // rate
