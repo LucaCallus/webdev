@@ -1,5 +1,3 @@
-// IMP -- cost[0]=50 (temporarily is 10 for testing) -- IMP
-// include this at top:
 let money = 0;
 let rate = 0;
 
@@ -15,7 +13,7 @@ const mechanics = [
 ]
 
 // Initialise cars
-const cars = [ // save that cars are bought - IMP
+const cars = [
     // name, price
     ["Mazda Demio 2", 5000],
     ["Toyota Celica GT", 7500],
@@ -24,6 +22,7 @@ const cars = [ // save that cars are bought - IMP
     ["Ferrai F40", 399000],
 ];
 
+// Initialise hired, bought, achievements arrays
 let hired = Array(mechanics.length).fill(0);
 let bought = Array(cars.length).fill(0);
 let achievements = [0, 0, 0, 0, 0]; // [First Click, First Mechanic, First Car, Millionaire, Own All Cars]
@@ -51,10 +50,10 @@ function countAuto(){
 
 // Manually increment money
 function count(){
-    money += 1; // expsenive upgrade to be able to upgrade this
+    money += 1;
     document.querySelector("#money").innerHTML = money;
     rotateSW();
-    if (!achievements[0]) { // First Click
+    if (!achievements[0]) { // First Click achievement
         achievements[0] = 1;
         updateAchievementsUI();
         showPopup("Achievement Unlocked: First Click!");
@@ -62,7 +61,7 @@ function count(){
     }
 }
 
-// Steering wheel rotation animation
+// Steering wheel rotation animation func
 function rotateSW(){
     const wheelImg = document.getElementById('steeringWheelImg');
     if (wheelImg) {
@@ -88,7 +87,7 @@ function buyMechanic(index){
         let hireBtn = mechDiv.querySelector("button");
         mechDiv.replaceChild(hiredSpan, hireBtn);
         showPopup(`Congratulations! You hired the ${mechanics[index][0]} mechanic!`);
-        if (!achievements[1]) { // First Mechanic
+        if (!achievements[1]) { // First Mechanic achievement
             achievements[1] = 1;
             updateAchievementsUI();
             setTimeout(() => showPopup("Achievement Unlocked: First Mechanic!"), 5000); // wait 5s
@@ -109,7 +108,7 @@ function buyCar(index){
         let buyBtn = carDiv.querySelector("button");
         carDiv.replaceChild(ownedSpan, buyBtn);
         showPopup(`Congratulations! You bought the ${cars[index][0]}!`);
-        if (!achievements[2]) { // First Car
+        if (!achievements[2]) { // First Car achievement
             achievements[2] = 1;
             updateAchievementsUI();
             setTimeout(() => showPopup("Achievement Unlocked: First Car!"), 3000); // wait 3s
@@ -119,7 +118,7 @@ function buyCar(index){
     else showPopup("Not enough money to buy this car!");
 }
 
-// Popup/modal function
+// Popup Modal function
 function showPopup(message) {
     const popup = document.getElementById('popup-modal');
     const msg = document.getElementById('popup-message');
@@ -183,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log(state);
 
-        // Add onclick property to Save Game button
+        // Add onclick property to the Save Game button
         const saveGameBtn = document.getElementById('saveGameBtn');
         if (saveGameBtn) {
             saveGameBtn.onclick = () => {
@@ -274,11 +273,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
-
-//  NOT WORKING
-// // Save game state when the user closes the tab or navigates away - usign sendBeacon()
-// window.addEventListener("beforeunload", () => {
-//     const data = JSON.stringify({money, rate, rates, cost, levels});
-//     const blob = new Blob([data], {type: "application/json"});
-//     navigator.sendBeacon("http://localhost:3000/gameState", blob);
-// });
